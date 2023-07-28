@@ -14,23 +14,6 @@ importers:
       prettier: 2.8.0
       turbo: 1.10.12
 
-  apps/docs:
-    specifiers:
-      eslint: ^7.32.0
-      eslint-config-custom: workspace:*
-      tsconfig: workspace:*
-      typescript: ^4.9.4
-      ui: workspace:*
-      vite: ^4.0.3
-    dependencies:
-      ui: link:../../packages/ui
-    devDependencies:
-      eslint: 7.32.0
-      eslint-config-custom: link:../../packages/eslint-config-custom
-      tsconfig: link:../../packages/tsconfig
-      typescript: 4.9.4
-      vite: 4.0.3
-
   apps/web:
     specifiers:
       eslint: ^7.32.0
@@ -676,6 +659,7 @@ packages:
 
   /eslint-config-prettier/8.5.0_eslint@7.32.0:
     resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
@@ -1357,6 +1341,7 @@ packages:
   /vite/4.0.3:
     resolution: {integrity: sha512-HvuNv1RdE7deIfQb8mPk51UKjqptO/4RXZ5yXSAvurd5xOckwS/gg8h9Tky3uSbnjYTgUm0hVCet1cyhKd73ZA==}
     engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
     peerDependencies:
       '@types/node': '>= 14'
       less: '*'
