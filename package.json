@@ -14,10 +14,10 @@
   },
   "packageManager": "pnpm@7.27.0",
   "engines": {
-    "node": "=18.14.0",
+    "node": "=18.17.0",
     "pnpm": "=7.27.0"
   },
   "volta": {
-    "node": "18.14.0"
+    "node": "18.17.0"
   }
 }
