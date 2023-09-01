@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue';
-import { addYears, differenceInWeeks } from 'date-fns'
+import { addDays, addYears, differenceInWeeks, differenceInYears } from 'date-fns'
 import WeekBlock from './WeekBlock.vue';
 import LifeSummary from './LifeSummary.vue';
+import { getLifeExpectancy } from '../services/UNLifeExpectancyService';
 
 onMounted(() => {
   const today = new Date();
@@ -11,19 +12,47 @@ onMounted(() => {
   document.querySelector<HTMLInputElement>("#birthDate")?.setAttribute("max", today.toLocaleDateString("fr-ca"));
 });
 
-const birthDateInput = ref('1994-12-18');
-// const birthDateInput = ref(new Date().toLocaleDateString("fr-ca"));
-const lifeExpectancy = 82.1;
+// const birthDateInput = ref('1994-12-18');
+const birthDateInput = ref(new Date().toLocaleDateString("fr-ca"));
+const sexInput = ref('M');
+const countryInput = ref('Canada');
+let lifeExpectancy = ref(0);
 
 let birthDate = computed(() => new Date(birthDateInput.value!));
-let deathDate = addYears(birthDate.value, lifeExpectancy); // decimal not handled
-let lifeInWeeks = computed(() => differenceInWeeks(deathDate, birthDate.value));
+const diffInYears = computed(() => differenceInYears(today, birthDate.value));
+
+const today = new Date();
+const deathDate = computed(() => {
+  const birthDateAddYears = addYears(birthDate.value, diffInYears.value+lifeExpectancy.value);
+  return addDays(birthDateAddYears, lifeExpectancy.value%1*365);
+});
+let lifeInWeeks = computed(() => differenceInWeeks(deathDate.value, birthDate.value));
+
+async function calculate() {
+  const response = await getLifeExpectancy(countryInput.value, sexInput.value, diffInYears.value);
+  lifeExpectancy.value = response.value;
+}
 </script>
 
 <template>
   <input type="date" v-model="birthDateInput" id="birthDate" />
+  <select v-model="sexInput">
+    <option value="M">Male</option>
+    <option value="F">Female</option>
+    <option value="X">Other</option>
+  </select>
 
-  <LifeSummary :birthDate=birthDate />
+  <select v-model="countryInput">
+    <option value="Canada">Canada</option>
+    <option value="France">France</option>
+  </select>
+
+  <button @click="calculate()">Calculate</button>
+
+  <LifeSummary
+    :birthDate=birthDate
+    :deathDate=deathDate
+    />
 
   <div class="life-calendar">
     <template v-for="i in lifeInWeeks" :key="i">
