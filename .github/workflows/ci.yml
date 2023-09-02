@@ -33,4 +33,4 @@ jobs:
 
       - name: Check outdated
         continue-on-error: true
-        run: pnpm outdated
+        run: pnpm outdated -r --long --compatible
