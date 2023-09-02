@@ -10,9 +10,16 @@ onMounted(() => {
   const maxLongevity = 130;
   document.querySelector<HTMLInputElement>("#birthDate")?.setAttribute("min", addYears(today, -maxLongevity).toLocaleDateString("fr-ca"));
   document.querySelector<HTMLInputElement>("#birthDate")?.setAttribute("max", today.toLocaleDateString("fr-ca"));
+
+  const personalInfoJSON = localStorage.getItem("personalInfo");
+  if (!!personalInfoJSON) {
+    const personalInfo = JSON.parse(personalInfoJSON);
+    birthDateInput.value = personalInfo.birthDate;
+    sexInput.value = personalInfo.sex;
+    countryInput.value = personalInfo.country;
+  }
 });
 
-// const birthDateInput = ref('1994-12-18');
 const birthDateInput = ref(new Date().toLocaleDateString("fr-ca"));
 const sexInput = ref('M');
 const countryInput = ref('Canada');
@@ -32,17 +39,26 @@ async function calculate() {
   const response = await getLifeExpectancy(countryInput.value, sexInput.value, diffInYears.value);
   lifeExpectancy.value = response.value;
 }
+
+function onFormChange() {
+  const personalInfo = {
+    birthDate: birthDateInput.value,
+    sex: sexInput.value,
+    country: countryInput.value,
+  }
+  localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+}
 </script>
 
 <template>
-  <input type="date" v-model="birthDateInput" id="birthDate" />
-  <select v-model="sexInput">
+  <input type="date" v-model="birthDateInput" id="birthDate" @change="onFormChange()" />
+  <select v-model="sexInput" @change="onFormChange()">
     <option value="M">Male</option>
     <option value="F">Female</option>
     <option value="X">Other</option>
   </select>
 
-  <select v-model="countryInput">
+  <select v-model="countryInput" @change="onFormChange()">
     <option value="Canada">Canada</option>
     <option value="France">France</option>
   </select>
