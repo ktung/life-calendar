@@ -21,7 +21,9 @@ const remainingDays = computed(() => differenceInDays(props.deathDate, today));
     <ul>
       <li>You lived {{ diffInYears }} years</li>
       <li>You lived {{ diffInDays }} days</li>
-      <li>You will die on {{ deathDate.toLocaleDateString('fr-fr') }}</li>
+    </ul>
+    <ul>
+      <li>You will die on {{ deathDate.toLocaleDateString() }}</li>
       <li>You have {{ remainingYears }} years left</li>
       <li>You have {{ remainingDays }} days left</li>
     </ul>
@@ -29,4 +31,10 @@ const remainingDays = computed(() => differenceInDays(props.deathDate, today));
 </template>
 
 <style scoped>
+section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
 </style>

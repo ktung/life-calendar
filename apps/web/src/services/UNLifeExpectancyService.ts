@@ -132,5 +132,8 @@ export async function getLifeExpectancy(location: string, sex: string, currentAg
   console.assert(data.locationId === locationCode, data);
   console.assert(data.ageLabel == currentAge, data);
   // console.assert(data.sex === sex, data);
-  return data;
+  return {
+    'url': `https://population.un.org/dataportal/data/indicators/76/locations/${locationCode}/start/${currentYear}/end/${currentYear}/table/pivotbylocation`,
+    'value': data.value
+  };
 }
