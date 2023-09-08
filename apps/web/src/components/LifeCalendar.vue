@@ -23,7 +23,7 @@ onMounted(() => {
 const birthDateInput = ref(new Date().toLocaleDateString("fr-ca"));
 const sexInput = ref('M');
 const countryInput = ref('Canada');
-let lifeExpectancy = ref(0);
+const lifeExpectancy = ref(0);
 
 const lifeSummaryEnabled = ref(true);
 
@@ -54,6 +54,7 @@ function onFormChange() {
 
 <template>
   <input type="date" v-model="birthDateInput" id="birthDate" @change="onFormChange()" />
+  <input type="number" v-model="lifeExpectancy" />
   <select v-model="sexInput" @change="onFormChange()">
     <option value="M">Male</option>
     <option value="F">Female</option>
