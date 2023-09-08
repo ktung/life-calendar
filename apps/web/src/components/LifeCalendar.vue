@@ -25,6 +25,8 @@ const sexInput = ref('M');
 const countryInput = ref('Canada');
 let lifeExpectancy = ref(0);
 
+const lifeSummaryEnabled = ref(true);
+
 let birthDate = computed(() => new Date(birthDateInput.value!));
 const diffInYears = computed(() => differenceInYears(today, birthDate.value));
 
@@ -65,7 +67,12 @@ function onFormChange() {
 
   <button @click="calculate()">Calculate</button>
 
+  <div>
+    <input type="checkbox" v-model="lifeSummaryEnabled" id="lifeSummaryEnabled" /><label for="lifeSummaryEnabled">Life Summary</label>
+  </div>
+
   <LifeSummary
+    v-if="lifeSummaryEnabled"
     :birthDate=birthDate
     :deathDate=deathDate
     />
