@@ -17,13 +17,14 @@ onMounted(() => {
     birthDateInput.value = personalInfo.birthDate;
     sexInput.value = personalInfo.sex;
     countryInput.value = personalInfo.country;
+    lifeExpectancyInput.value = personalInfo.lifeExpectancy;
   }
 });
 
 const birthDateInput = ref(new Date().toLocaleDateString("fr-ca"));
 const sexInput = ref('M');
 const countryInput = ref('Canada');
-const lifeExpectancy = ref(0);
+const lifeExpectancyInput = ref(0);
 
 const lifeSummaryEnabled = ref(true);
 const lifeSummaryUrl = ref('');
@@ -33,14 +34,14 @@ const diffInYears = computed(() => differenceInYears(today, birthDate.value));
 
 const today = new Date();
 const deathDate = computed(() => {
-  const birthDateAddYears = addYears(birthDate.value, lifeExpectancy.value);
-  return addDays(birthDateAddYears, lifeExpectancy.value%1*365);
+  const birthDateAddYears = addYears(birthDate.value, lifeExpectancyInput.value);
+  return addDays(birthDateAddYears, lifeExpectancyInput.value%1*365);
 });
 let lifeInWeeks = computed(() => differenceInWeeks(deathDate.value, birthDate.value));
 
 async function estimateLifeExpectancy() {
   const response = await getLifeExpectancy(countryInput.value, sexInput.value, diffInYears.value);
-  lifeExpectancy.value = diffInYears.value+response.value;
+  lifeExpectancyInput.value = diffInYears.value+response.value;
   lifeSummaryUrl.value = response.url;
 }
 
@@ -49,6 +50,7 @@ function onFormChange() {
     birthDate: birthDateInput.value,
     sex: sexInput.value,
     country: countryInput.value,
+    lifeExpectancy: lifeExpectancyInput.value,
   }
   localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
 }
@@ -58,7 +60,7 @@ function onFormChange() {
   <label>Birthdate</label>
   <input type="date" v-model="birthDateInput" id="birthDate" @change="onFormChange()" />
   <label>Life Expectancy</label>
-  <input type="number" v-model="lifeExpectancy" />
+  <input type="number" v-model="lifeExpectancyInput" @change="onFormChange()" />
 
   <div>
     <label>Estimation with</label>
