@@ -21,6 +21,7 @@ const remainingDays = computed(() => differenceInDays(props.deathDate, today));
     <ul>
       <li>You lived {{ diffInYears }} years</li>
       <li>You lived {{ diffInDays }} days</li>
+      <li>You lived {{ (diffInDays/(diffInDays+remainingDays)*100).toFixed(2) }}%</li>
     </ul>
     <ul>
       <li>You will die on {{ deathDate.toLocaleDateString() }}</li>

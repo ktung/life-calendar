@@ -106,7 +106,7 @@ function onFormChange() {
 <style scoped>
 .life-calendar {
   display: grid;
-  grid-template-columns: repeat(53, 1fr);
+  grid-template-columns: repeat(52, 1fr);
   gap: 5px;
 }
 </style>
