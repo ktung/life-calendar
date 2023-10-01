@@ -28,7 +28,7 @@ const lifeExpectancyInput = ref(0);
 
 const lifeEstimationEnabled = ref(true);
 const lifeSummaryEnabled = ref(true);
-const lifeSummaryUrl = ref('');
+const lifeExpectancySourceUrl = ref('');
 
 let birthDate = computed(() => new Date(birthDateInput.value!));
 const diffInYears = computed(() => differenceInYears(today, birthDate.value));
@@ -43,7 +43,7 @@ let lifeInWeeks = computed(() => differenceInWeeks(deathDate.value, birthDate.va
 async function estimateLifeExpectancy() {
   const response = await getLifeExpectancy(countryInput.value, sexInput.value, diffInYears.value);
   lifeExpectancyInput.value = diffInYears.value+response.value;
-  lifeSummaryUrl.value = response.url;
+  lifeExpectancySourceUrl.value = response.url;
 }
 
 function onFormChange() {
@@ -81,7 +81,7 @@ function onFormChange() {
     </select>
 
     <button @click="estimateLifeExpectancy()">Estimate</button><br/>
-    <span v-if="lifeSummaryUrl">Based on <a :href="lifeSummaryUrl" target="_blank">United Nations</a></span>
+    <span v-if="lifeExpectancySourceUrl">Based on <a :href="lifeExpectancySourceUrl" target="_blank">United Nations</a></span>
   </div>
 
   <div>
