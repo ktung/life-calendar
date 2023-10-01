@@ -23,12 +23,12 @@ const title = computed(() => "Week " + props.weekNumber + " " + addWeeks(props.b
 .square {
   width: 10px;
   height: 10px;
-  border: 2px solid black;
+  border: 2px solid rgb(50, 50, 50);
   border-radius: 10%;
   display: inline-block;
 }
 
 .square:hover, .checked {
-  background-color: black;
+  background-color: rgb(50, 50, 50);
 }
 </style>

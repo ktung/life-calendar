@@ -5,8 +5,9 @@
 
   color-scheme: light dark;
   /* color: rgba(255, 255, 255, 0.87); */
-  color: black;
-  background-color: #eeeeee;
+  /* color: rgb(70, 35, 15); */
+  color: rgb(50, 50, 50);
+  background-color: rgb(245, 245, 220);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
