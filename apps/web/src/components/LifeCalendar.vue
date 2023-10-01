@@ -26,6 +26,7 @@ const sexInput = ref('M');
 const countryInput = ref('Canada');
 const lifeExpectancyInput = ref(0);
 
+const lifeEstimationEnabled = ref(true);
 const lifeSummaryEnabled = ref(true);
 const lifeSummaryUrl = ref('');
 
@@ -62,7 +63,7 @@ function onFormChange() {
   <label>Life Expectancy</label>
   <input type="number" v-model="lifeExpectancyInput" @change="onFormChange()" />
 
-  <div>
+  <div v-if="lifeEstimationEnabled">
     <label>Estimation with</label>
     <select>
       <option>United Nations</option>
@@ -84,6 +85,7 @@ function onFormChange() {
   </div>
 
   <div>
+    <input type="checkbox" v-model="lifeEstimationEnabled" id="lifeEstimationEnabled" /><label for="lifeEstimationEnabled">Life Estimation</label>
     <input type="checkbox" v-model="lifeSummaryEnabled" id="lifeSummaryEnabled" /><label for="lifeSummaryEnabled">Life Summary</label>
   </div>
 
