@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, Ref } from 'vue';
 import { addDays, addYears, differenceInWeeks, differenceInYears } from 'date-fns'
 import WeekBlock from './WeekBlock.vue';
 import LifeSummary from './LifeSummary.vue';
+import JournalingComponent from './JournalingComponent.vue';
 import { getLifeExpectancy } from '../services/UNLifeExpectancyService';
 
 onMounted(() => {
@@ -28,7 +29,10 @@ const lifeExpectancyInput = ref(0);
 
 const lifeEstimationEnabled = ref(true);
 const lifeSummaryEnabled = ref(true);
+const journalingEnabled = ref(true);
 const lifeExpectancySourceUrl = ref('');
+
+let selectedWeek: Ref<number | undefined> = ref(undefined);
 
 let birthDate = computed(() => new Date(birthDateInput.value!));
 const diffInYears = computed(() => differenceInYears(today, birthDate.value));
@@ -54,6 +58,14 @@ function onFormChange() {
     lifeExpectancy: lifeExpectancyInput.value,
   }
   localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
+}
+
+function selectWeek(weekNumber: number) {
+  selectedWeek.value = weekNumber;
+}
+
+function closeJournaling() {
+  selectedWeek.value = undefined;
 }
 </script>
 
@@ -87,6 +99,7 @@ function onFormChange() {
   <div>
     <input type="checkbox" v-model="lifeEstimationEnabled" id="lifeEstimationEnabled" /><label for="lifeEstimationEnabled">Life Estimation</label>
     <input type="checkbox" v-model="lifeSummaryEnabled" id="lifeSummaryEnabled" /><label for="lifeSummaryEnabled">Life Summary</label>
+    <input type="checkbox" v-model="journalingEnabled" id="journalingEnabled" /><label for="journalingEnabled">Journaling</label>
   </div>
 
   <LifeSummary
@@ -95,11 +108,22 @@ function onFormChange() {
     :deathDate=deathDate
     />
 
+  <button v-if="journalingEnabled && !!selectedWeek" @click="closeJournaling">Close journaling</button>
+  <template v-for="i in lifeInWeeks" :key="i">
+    <JournalingComponent
+      v-if="journalingEnabled && selectedWeek === i"
+      :birthDate=birthDate
+      :weekNumber=selectedWeek
+      />
+  </template>
+
   <div class="life-calendar">
     <template v-for="i in lifeInWeeks" :key="i">
       <WeekBlock
         :birthDate=birthDate
         :weekNumber=i
+        :journalingEnabled=journalingEnabled
+        @click="selectWeek(i)"
         />
     </template>
   </div>
