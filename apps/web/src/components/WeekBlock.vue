@@ -35,6 +35,12 @@ let moodClassName = computed(() => `mood-${moodLevel.value} `)
 </template>
 
 <style scoped>
+@media print {
+  * {
+    print-color-adjust: exact;
+  }
+}
+
 .square {
   width: 10px;
   height: 10px;
