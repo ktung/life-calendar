@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, Ref } from 'vue';
+import { computed, ref, onMounted, Ref, watch } from 'vue';
 import { addDays, addYears, differenceInWeeks, differenceInYears } from 'date-fns'
 import WeekBlock from './WeekBlock.vue';
 import LifeSummary from './LifeSummary.vue';
@@ -19,6 +19,14 @@ onMounted(() => {
     sexInput.value = personalInfo.sex;
     countryInput.value = personalInfo.country;
     lifeExpectancyInput.value = personalInfo.lifeExpectancy;
+  }
+
+  const viewsSettingsJSON = localStorage.getItem("viewsSettings");
+  if (!!viewsSettingsJSON) {
+    const viewsSettings = JSON.parse(viewsSettingsJSON);
+    lifeEstimationEnabled.value = viewsSettings.lifeEstimationEnabled;
+    lifeSummaryEnabled.value = viewsSettings.lifeSummaryEnabled;
+    journalingEnabled.value = viewsSettings.journalingEnabled;
   }
 });
 
@@ -67,6 +75,14 @@ function selectWeek(weekNumber: number) {
 function closeJournaling() {
   selectedWeek.value = undefined;
 }
+watch([lifeEstimationEnabled, lifeSummaryEnabled, journalingEnabled], () => {
+  const viewsSettings = {
+    lifeEstimationEnabled: lifeEstimationEnabled.value,
+    lifeSummaryEnabled: lifeSummaryEnabled.value,
+    journalingEnabled: journalingEnabled.value
+  }
+  localStorage.setItem("viewsSettings", JSON.stringify(viewsSettings));
+});
 </script>
 
 <template>
