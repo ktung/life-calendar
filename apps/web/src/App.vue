@@ -18,6 +18,7 @@ import LifeCalendar from './components/LifeCalendar.vue';
   </div>
   <HelloWorld msg="Vite + Vue" /> -->
   <LifeCalendar />
+  <a href="https://github.com/ktung/life-calendar">Github</a>
 </template>
 
 <style scoped>
