@@ -6,14 +6,16 @@ import { db } from '../db';
 const props = defineProps<{
   weekNumber: number,
   birthDate: Date
-}>()
+}>();
 
 onMounted(async () => {
   const journalingItems = await db.journalingItems
     .where("weekNumber").equals(props.weekNumber).toArray();
+
   if (journalingItems.length != 1) {
     return;
   }
+
   moodLevelInput.value = journalingItems[0].moodLevel;
   notesTextarea.value = journalingItems[0].notes;
 });
