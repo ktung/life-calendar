@@ -5,6 +5,11 @@ import WeekBlock from './WeekBlock.vue';
 import LifeSummary from './LifeSummary.vue';
 import JournalingComponent from './JournalingComponent.vue';
 import { getLifeExpectancy } from '../services/UNLifeExpectancyService';
+import { db } from '../db';
+import Dexie from 'dexie';
+import "dexie-export-import";
+import downloadjs from "downloadjs";
+
 
 onMounted(() => {
   const today = new Date();
@@ -83,9 +88,24 @@ watch([lifeEstimationEnabled, lifeSummaryEnabled, journalingEnabled], () => {
   }
   localStorage.setItem("viewsSettings", JSON.stringify(viewsSettings));
 });
+
+async function exportDB() {
+  const blob = await db.export({ prettyJson: true });
+  downloadjs(blob, "db-export.json", "application/json");
+}
+
+async function importDB(ev: Event) {
+  console.log(ev)
+  const file = document.querySelector<HTMLInputElement>("#inputFile")?.files!![0];
+  if (!file) throw new Error(`Only files can be dropped here`);
+  await Dexie.import(file);
+}
 </script>
 
 <template>
+  <span @click="exportDB()">Export DB</span>
+  <input type="file" id="inputFile" @change="importDB($event)" />
+
   <label>Birthdate</label>
   <input type="date" v-model="birthDateInput" id="birthDate" @change="onFormChange()" />
   <label>Life Expectancy</label>
