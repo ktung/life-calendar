@@ -75,6 +75,10 @@ function onFormChange() {
 
 function selectWeek(weekNumber: number) {
   selectedWeek.value = weekNumber;
+
+  if (journalingEnabled.value) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function closeJournaling() {

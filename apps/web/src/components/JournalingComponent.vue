@@ -34,9 +34,13 @@ function save() {
 
 <template>
   <div>
-    <h1>Week {{ props.weekNumber }} : {{ addWeeks(props.birthDate, props.weekNumber-1).toLocaleDateString() }} to {{ addWeeks(props.birthDate, props.weekNumber).toLocaleDateString() }}</h1>
-    <label>Mood level</label><input v-model="moodLevelInput" type="range" min="0" max="3">
-    <textarea v-model="notesTextarea">Journaling {{ props.weekNumber }}</textarea>
+    <h3>Week {{ props.weekNumber }} : {{ addWeeks(props.birthDate, props.weekNumber-1).toLocaleDateString() }} to {{ addWeeks(props.birthDate, props.weekNumber).toLocaleDateString() }}</h3>
+    <div>
+      <label>Mood level</label><input v-model="moodLevelInput" type="range" min="0" max="3">
+    </div>
+    <div>
+      <textarea v-model="notesTextarea">Journaling {{ props.weekNumber }}</textarea>
+    </div>
     <button @click="save">Save</button>
   </div>
 </template>
